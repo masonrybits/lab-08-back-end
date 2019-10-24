@@ -24,9 +24,9 @@ Node.js that handles different URL calls - each returning unique dataset from di
 Authors: DJ Grant and Ting Luo
 Various APIs documents. 
 
-Feature 1 
-Estamation: 
-Start: 
-End: 
-Actual: 
+Feature 1 database
+Estamation: 45 mins
+Start: 9:20
+End: 10:00
+Actual: 40 mins
 

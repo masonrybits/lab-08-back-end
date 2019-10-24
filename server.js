@@ -4,11 +4,15 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 const superagent = require('superagent');
+const pg = require('pg');
+
 
 const app = express();
 
 app.use(cors());
 const PORT = process.env.PORT || 3003;
+
+const client = new pg.Client(process.env.DATABASE_URL);
 
 app.listen(PORT, () => console.log(`App is on port ${PORT}`));
 
