@@ -1,20 +1,20 @@
-'use strict';
+// 'use strict';
 
+// load dependencies
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 const superagent = require('superagent');
 const pg = require('pg');
 
-
+// setup
 const app = express();
-
 app.use(cors());
 const PORT = process.env.PORT || 3003;
 
 const client = new pg.Client(process.env.DATABASE_URL);
 
-app.listen(PORT, () => console.log(`App is on port ${PORT}`));
+
 
 //Get the location and name to be used else where
 app.get('/location', (request, response) => {
@@ -60,7 +60,7 @@ app.get('/trails', (request, response) => {
 
   superagent.get(url)
     .then(data => {
-      console.log(data.body)
+      console.log(data.body);
       response.send(data.body.trails.map(trail => new Trail(trail)));
 
     })
@@ -73,18 +73,18 @@ app.get('/trails', (request, response) => {
 });
 
 
-//404 all unwanted extentions
+// error handler
 app.get('*', (request, responce) => {
   responce.status(404);
 });
 
+// functions
 function City(location, data) {
 
   this.search_query = location;
   this.formatted_query = data.results[0].formatted_address;
   this.latitude = data.results[0].geometry.location.lat;
   this.longitude = data.results[0].geometry.location.lng;
-
 }
 
 function Forcast(day) {
@@ -104,7 +104,20 @@ function Trail(trailData) {
   this.summary = trailData.summary;
   this.trail_url = trailData.url;
   this.conditions = trailData.conditionStatus;
-  let space = trailData.conditionDate.indexOf(' ')
-  this.condition_date = trailData.conditionDate.slice(0,space);
+  let space = trailData.conditionDate.indexOf(' ');
+  this.condition_date = trailData.conditionDate.slice(0, space);
   this.condition_time = trailData.conditionDate.slice(space);
 }
+
+function lookupLocation(location_name =>  {
+  let SQL = 'SELECT * FROM location WHERE location_name = $1 RETURNING *';
+  let value = location_name
+  client.query (SQL, value)
+  
+  })
+
+client.connect()
+  .then(() => {
+    app.listen(PORT, () => console.log(`App is on port ${PORT}`));
+  });
+
